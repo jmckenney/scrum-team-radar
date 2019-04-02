@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'https://unpkg.com/lit-html?module'; // workaround until owc-dev-server supports html
+    import '../src/chart-component.js';
+
+    const title = 'test';
+    render(html`
+      <chart-component .header=${title}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+        been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+        galley of type and scrambled it to make a type specimen book.
+      </chart-component>
+    `, document.querySelector('#demo'));
+  </script>
+</body>
+</html>
