@@ -40,10 +40,6 @@ export default class ChartComponent extends LitElement {
             legend: {
                 position: 'top',
             },
-            title: {
-                display: true,
-                text: 'Chart.js Radar Chart'
-            },
             scale: {
                 ticks: {
                     beginAtZero: true
@@ -57,8 +53,16 @@ export default class ChartComponent extends LitElement {
   render() {
     return html`
         <style>
+            :host {
+            }
             .chart-size{
                 position: relative;
+                width: 100vw;
+                height: 80vh;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             canvas{
                 width:400px;

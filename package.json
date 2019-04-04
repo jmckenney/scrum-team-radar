@@ -10,7 +10,7 @@
     "start": "owc-dev-server --open demo"
   },
   "dependencies": {
-    "chart.js": "^2.8.0",
+    "emoji-slider": "^0.2.0",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0"
   },
