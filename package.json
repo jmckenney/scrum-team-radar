@@ -7,7 +7,11 @@
   "license": "MIT",
   "repository": "https://github.com/open-wc/open-wc/",
   "scripts": {
-    "start": "owc-dev-server --open demo"
+    "start": "owc-dev-server --open demo",
+    "lint:eslint": "eslint --ext .js,.html .",
+    "format:eslint": "eslint --ext .js,.html . --fix",
+    "lint:prettier": "prettier \"**/*.js\" --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
+    "format:prettier": "prettier \"**/*.js\" --write"
   },
   "dependencies": {
     "emoji-slider": "^0.2.0",
@@ -15,6 +19,8 @@
     "lit-html": "^1.0.0"
   },
   "devDependencies": {
-    "owc-dev-server": "^0.3.0"
+    "owc-dev-server": "^0.3.0",
+    "@open-wc/eslint-config": "^0.4.1",
+    "@open-wc/prettier-config": "^0.1.0"
   }
 }

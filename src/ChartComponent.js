@@ -1,43 +1,49 @@
-import { html, LitElement, svg } from "lit-element";
+import { html, LitElement, svg, css } from 'lit-element';
 
 export default class ChartComponent extends LitElement {
+  static get properties() {
+    return {
+      members: { type: Array },
+    };
+  }
+
+  static get styles() {
+    return css`
+      :host {
+        display: block;
+      }
+
+      .chart-size {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      polygon {
+        transition: all 0.6s ease-in-out;
+      }
+
+      polygon:hover {
+        transform: scale(1.1);
+      }
+    `;
+  }
+
   constructor() {
     super();
-
-    // default values can be set from the constructor
-    this.members = [
-      {
-        name: "Bob",
-        strengths: [
-          { label: "Testing", value: 40 },
-          { label: "Java", value: 30 },
-          { label: "JavaScript", value: 70 },
-          { label: "HTML & CSS", value: 95 },
-          { label: "Joke Master", value: 50 },
-          { label: "Scruming", value: 65 }
-        ]
-      },
-      {
-        name: "JimBob",
-        strengths: [
-          { label: "Testing", value: 60 },
-          { label: "Java", value: 70 },
-          { label: "JavaScript", value: 20 },
-          { label: "HTML & CSS", value: 65 },
-          { label: "Joke Master", value: 55 },
-          { label: "Scruming", value: 35 }
-        ]
-      }
-    ];
+    this.members = [];
   }
 
   _renderGraph() {
     return svg`
-      <svg class="scoreviz" viewBox="-300 -300 600 600" width="600">
-        <g class="score-dial">
-            <circle class="outline" cx="0" cy="0" r="270" stroke="blue" fill="transparent"></circle>
-            <circle class="outline" cx="0" cy="0" r="180" stroke="blue" fill="transparent"></circle>
-            <circle class="outline" cx="0" cy="0" r="100" stroke="blue" fill="transparent"></circle>
+      <svg viewBox="-300 -300 600 600" width="600">
+        <g>
+            <circle cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color)" fill="var(--chart-circle-background-color)"></circle>
+            <circle cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
+            <circle cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
             ${this._renderMemberRadarPolygons()}
         </g>
       </svg>
@@ -47,76 +53,72 @@ export default class ChartComponent extends LitElement {
   _renderMemberRadarPolygons() {
     return svg`
         ${this.members.map(
-            member => svg`
-                ${this._renderLineFromCenterToOuterPolygonPoint( member )}
-                <polygon fill="green" fill-opacity="0.7" points="${this._getPolygonPoints( member )}"></polygon>
-                ${this._renderPolygonLabels( member )}
-            `
+          member => svg`
+                ${ChartComponent._renderLineFromCenterToOuterPolygonPoint(member)}
+                <polygon fill="var(--chart-polygon-color)" fill-opacity="0.7" points="${ChartComponent._getPolygonPoints(
+                  member,
+                )}"></polygon>
+                ${ChartComponent._renderPolygonLabels(member)}
+            `,
         )}
     `;
   }
 
-  _renderPolygonLabels(member) {
+  static _renderPolygonLabels(member) {
     return svg`
         ${member.strengths.map((strength, i) => {
-            let point = this._valueToPoint( 100, i, member.strengths.length );
-            return svg`
-                <text dominant-baseline="middle" text-anchor="middle" x="${point.x}" y="${point.y}">${strength.label}</text>
+          const point = ChartComponent._valueToPoint(100, i, member.strengths.length);
+          return svg`
+                <text fill="var(--chart-text-label-color)" dominant-baseline="middle" text-anchor="middle" x="${
+                  point.x
+                }" y="${point.y}">${strength.label}</text>
             `;
         })}
-    `
+    `;
   }
 
-  _renderLineFromCenterToOuterPolygonPoint(member) {
+  static _renderLineFromCenterToOuterPolygonPoint(member) {
     return svg`
         ${member.strengths.map((strength, i) => {
-            let point = this._valueToPoint( 100, i, member.strengths.length );
-            return svg`
-                <line x1="0" y1="0" x2="${point.x}" y2="${point.y}" stroke="black" />
+          const point = ChartComponent._valueToPoint(100, i, member.strengths.length);
+          return svg`
+                <line x1="0" y1="0" x2="${point.x}" y2="${
+            point.y
+          }" stroke="var(--chart-grid-line-color)" />
             `;
         })}
-    `
+    `;
   }
 
-  _getPolygonPoints(player) {
-    var total = player.strengths.length;
-    return player.strengths
+  static _getPolygonPoints(member) {
+    const total = member.strengths.length;
+    return member.strengths
       .map((strength, i) => {
-        var point = this._valueToPoint(strength.value, i, total);
-        return point.x + "," + point.y;
+        const point = ChartComponent._valueToPoint(strength.value, i, total);
+        return `${point.x} , ${point.y}`;
       })
-      .join(" ");
+      .join(' ');
   }
 
-  _valueToPoint(value, index, total) {
-    var maxV = 100;
-    var maxR = 300 * 0.9;
-    var r = (maxR / maxV) * value;
-    var angle = ((Math.PI * 2) / total) * index + Math.PI / 2;
-    var cos = Math.cos(angle);
-    var sin = Math.sin(angle);
-    var tx = r * cos;
-    var ty = r * sin;
+  static _valueToPoint(value, index, total) {
+    const maxV = 100;
+    const maxR = 300 * 0.9;
+    const r = (maxR / maxV) * value;
+    const angle = ((Math.PI * 2) / total) * index + Math.PI / 2;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const tx = r * cos;
+    const ty = r * sin;
     return {
-      angle: angle,
+      angle,
       radius: r,
       x: tx,
-      y: ty
+      y: ty,
     };
   }
 
   render() {
     return html`
-      <style>
-        .chart-size {
-          position: relative;
-          width: 100vw;
-          height: 80vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      </style>
       <div class="chart-size">
         ${this._renderGraph()}
       </div>
