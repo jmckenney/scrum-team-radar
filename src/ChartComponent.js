@@ -13,10 +13,15 @@ export default class ChartComponent extends LitElement {
         display: block;
       }
 
+      svg {
+        width: var(--chart-width);
+        height: 90%;
+        max-height: 90vh;
+      }
+
       .chart-size {
         position: relative;
         width: 100vw;
-        height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;

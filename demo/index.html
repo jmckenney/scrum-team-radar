@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Ovo|Quattrocento+Sans" rel="stylesheet" />
     <style>
       body {
-        background: #fafafa;
+        background-image: url(https://www.reliablepsd.com/wp-content/themes/reliable/images/blog/bg02.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 100vh;
         font-family: 'Quattrocento Sans', Sans-Serif;
         font-size: 17px;
-        --chart-text-label-color: #131313;
+        --chart-text-label-color: #ffffff;
         --chart-polygon-color: #e2ae77;
         --chart-grid-line-color: #edc795;
         --chart-circle-background-color: #d0a0842e;
+        --chart-width: 90vw;
+        margin: 0;
+        padding: 0;
       }
       h1,
       h2,
@@ -21,22 +30,23 @@
         font-family: 'Ovo', Serif;
         font-size: 42px;
       }
+
+      #demo {
+        position: absolute;
+        top: 0;
+      }
     </style>
   </head>
   <body>
-    <div id="demo"></div>
+    <header></header>
+    <div id="demo">
+      <chart-component></chart-component>
+      <team-strengths-form></team-strengths-form>
+    </div>
 
     <script type="module">
-      import { html, render } from 'https://unpkg.com/lit-html?module'; // workaround until owc-dev-server supports html
       import '../src/chart-component.js';
-
-      const title = 'test';
-      render(
-        html`
-          <chart-component></chart-component>
-        `,
-        document.querySelector('#demo'),
-      );
+      import '../src/team-strengths-form.js';
 
       let newMember = {
         name: 'Bob',
@@ -50,7 +60,23 @@
         ],
       };
 
+      const chart = document.querySelector('chart-component');
       document.querySelector('chart-component').members.push(newMember);
+      document.querySelector('team-strengths-form').addEventListener('new-player', e => {
+        let newMember = {
+          name: e.detail.memberName,
+          strengths: [
+            { label: 'Testing', value: parseInt(e.detail.one) },
+            { label: 'Java', value: parseInt(e.detail.two) },
+            { label: 'JavaScript', value: parseInt(e.detail.three) },
+            { label: 'HTML & CSS', value: parseInt(e.detail.four) },
+            { label: 'Joke Master', value: parseInt(e.detail.five) },
+            { label: 'Scruming', value: parseInt(e.detail.six) },
+          ],
+        };
+        debugger;
+        chart.members = [...chart.members, newMember];
+      });
     </script>
   </body>
 </html>
