@@ -12,23 +12,50 @@ export default class TeamStrengthsForm extends LitElement {
         max-width: 100vw;
         height: 100vh;
         transform: translateX(100vw);
-        transition: transform 0.7s ease-in-out;
       }
 
       :host(.open) {
         left: 0;
         min-height: 100vh;
-        background-color: white;
         width: 100vw;
         height: 100vh;
-        transform: translateX(0vw);
+        animation-duration: 1.4s;
+        animation-name: slidein;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes slidein {
+        0% {
+          left: 0;
+          min-height: 100vh;
+          width: 100vw;
+          height: 100vh;
+          transform: translateX(100vw);
+          animation-iteration-count: 1;
+          opacity: 0;
+        }
+        50% {
+          transform: translateX(0vw);
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+          left: 0;
+          min-height: 100vh;
+          width: 100vw;
+          height: 100vh;
+          transform: translateX(0vw);
+          animation-iteration-count: 1;
+        }
       }
 
       form {
-        width: 90%;
+        width: 80vw;
         padding: 5%;
-        background-color: white;
-        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        height: 80vh;
+        box-sizing: border-box;
+        margin: 10vh auto 10vh;
       }
 
       label {
@@ -41,12 +68,18 @@ export default class TeamStrengthsForm extends LitElement {
 
       .close-button {
         position: fixed;
-        bottom: 0;
-        right: 0;
+        bottom: 3vh;
+        right: 3vw;
         padding: 10px;
-        color: white;
         background-color: black;
+        color: white;
         transition: all 0.7s ease-in-out;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        text-align: center;
+        line-height: 3;
         cursor: pointer;
       }
     `;
@@ -72,6 +105,7 @@ export default class TeamStrengthsForm extends LitElement {
 
   _handleClose() {
     this.classList.remove('open');
+    this.dispatchEvent(new CustomEvent('new-player-closed'));
   }
 
   render() {

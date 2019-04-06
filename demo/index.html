@@ -40,16 +40,29 @@
 
       .open-button {
         position: fixed;
-        bottom: 0;
-        right: 0;
+        bottom: 3vh;
+        right: 3vw;
         padding: 10px;
-        background-color: #ffffff99;
+        background-color: rgba(255, 255, 255, 0.6);
         transition: all 0.7s ease-in-out;
         cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        text-align: center;
+        line-height: 3;
+      }
+
+      .open-button.active {
+        width: 91vw;
+        height: 91vh;
+        border-radius: 0;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: transparent;
       }
 
       .open-button:hover {
-        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.8);
       }
     </style>
   </head>
@@ -66,6 +79,8 @@
       import '../src/team-strengths-form.js';
       const chart = document.querySelector('chart-component');
       const form = document.querySelector('team-strengths-form');
+      const addLink = document.getElementById('openFormLink');
+
       document.querySelector('team-strengths-form').addEventListener('new-player', e => {
         let newMember = {
           name: e.detail.memberName,
@@ -82,7 +97,12 @@
         chart.members = [...chart.members, newMember];
       });
 
-      document.getElementById('openFormLink').addEventListener('click', e => {
+      document.querySelector('team-strengths-form').addEventListener('new-player-closed', e => {
+        addLink.classList.remove('active');
+      });
+
+      addLink.addEventListener('click', e => {
+        e.target.classList.add('active');
         form.classList.add('open');
       });
     </script>
