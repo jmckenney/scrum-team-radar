@@ -6,12 +6,29 @@ export default class TeamStrengthsForm extends LitElement {
     return css`
       :host {
         display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        max-width: 100vw;
+        height: 100vh;
+        transform: translateX(100vw);
+        transition: transform 0.7s ease-in-out;
+      }
+
+      :host(.open) {
+        left: 0;
+        min-height: 100vh;
+        background-color: white;
+        width: 100vw;
+        height: 100vh;
+        transform: translateX(0vw);
       }
 
       form {
         width: 90%;
         padding: 5%;
         background-color: white;
+        height: 100%;
       }
 
       label {
@@ -20,6 +37,17 @@ export default class TeamStrengthsForm extends LitElement {
 
       input {
         width: 100%;
+      }
+
+      .close-button {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding: 10px;
+        color: white;
+        background-color: black;
+        transition: all 0.7s ease-in-out;
+        cursor: pointer;
       }
     `;
   }
@@ -39,12 +67,18 @@ export default class TeamStrengthsForm extends LitElement {
       objToEmit[prop] = value;
     }
     this.dispatchEvent(new CustomEvent('new-player', { detail: objToEmit }));
+    this._handleClose();
+  }
+
+  _handleClose() {
+    this.classList.remove('open');
   }
 
   render() {
     return html`
+      <a @click="${this._handleClose}" class="close-button">Close</a>
       <form>
-        <label for="memberName">${this.josh}Member Name</label>
+        <label for="memberName">Member Name</label>
         <input name="memberName" id="memberName" type="text" required value="yo" />
 
         <label for="one">One</label>

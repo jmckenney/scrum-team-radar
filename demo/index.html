@@ -34,6 +34,22 @@
       #demo {
         position: absolute;
         top: 0;
+        overflow: hidden;
+        min-height: 100vh;
+      }
+
+      .open-button {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding: 10px;
+        background-color: #ffffff99;
+        transition: all 0.7s ease-in-out;
+        cursor: pointer;
+      }
+
+      .open-button:hover {
+        background-color: #ffffff;
       }
     </style>
   </head>
@@ -41,27 +57,15 @@
     <header></header>
     <div id="demo">
       <chart-component></chart-component>
+      <a id="openFormLink" class="open-button">Add</a>
       <team-strengths-form></team-strengths-form>
     </div>
 
     <script type="module">
       import '../src/chart-component.js';
       import '../src/team-strengths-form.js';
-
-      let newMember = {
-        name: 'Bob',
-        strengths: [
-          { label: 'Testing', value: 40 },
-          { label: 'Java', value: 30 },
-          { label: 'JavaScript', value: 70 },
-          { label: 'HTML & CSS', value: 95 },
-          { label: 'Joke Master', value: 50 },
-          { label: 'Scruming', value: 65 },
-        ],
-      };
-
       const chart = document.querySelector('chart-component');
-      document.querySelector('chart-component').members.push(newMember);
+      const form = document.querySelector('team-strengths-form');
       document.querySelector('team-strengths-form').addEventListener('new-player', e => {
         let newMember = {
           name: e.detail.memberName,
@@ -74,8 +78,12 @@
             { label: 'Scruming', value: parseInt(e.detail.six) },
           ],
         };
-        debugger;
+
         chart.members = [...chart.members, newMember];
+      });
+
+      document.getElementById('openFormLink').addEventListener('click', e => {
+        form.classList.add('open');
       });
     </script>
   </body>

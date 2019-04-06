@@ -60,7 +60,7 @@ export default class ChartComponent extends LitElement {
         ${this.members.map(
           member => svg`
                 ${ChartComponent._renderLineFromCenterToOuterPolygonPoint(member)}
-                <polygon fill="var(--chart-polygon-color)" fill-opacity="0.7" points="${ChartComponent._getPolygonPoints(
+                <polygon fill="var(--chart-polygon-color)" fill-opacity="0.5" points="${ChartComponent._getPolygonPoints(
                   member,
                 )}"></polygon>
                 ${ChartComponent._renderPolygonLabels(member)}
