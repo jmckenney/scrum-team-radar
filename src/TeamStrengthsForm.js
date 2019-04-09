@@ -19,7 +19,7 @@ export default class TeamStrengthsForm extends LitElement {
         min-height: 100vh;
         width: 100vw;
         height: 100vh;
-        animation-duration: 1.4s;
+        animation-duration: 0.7s;
         animation-name: slidein;
         animation-fill-mode: forwards;
       }
@@ -50,9 +50,9 @@ export default class TeamStrengthsForm extends LitElement {
       }
 
       form {
-        width: 80vw;
+        width: 90vw;
+        max-width: 700px;
         padding: 5%;
-        background-color: rgba(255, 255, 255, 0.8);
         height: 80vh;
         box-sizing: border-box;
         margin: 10vh auto 10vh;
@@ -68,10 +68,10 @@ export default class TeamStrengthsForm extends LitElement {
 
       .close-button {
         position: fixed;
-        bottom: 3vh;
+        top: 3vh;
         right: 3vw;
         padding: 10px;
-        background-color: black;
+        background-color: #1b0f0b;
         color: white;
         transition: all 0.7s ease-in-out;
         cursor: pointer;
@@ -135,7 +135,7 @@ export default class TeamStrengthsForm extends LitElement {
 
         <input type="button" @click="${this._onSubmit}" value="Click Me" />
 
-        <emoji-slider emoji="😍"></emoji-slider>
+        <emoji-slider emoji="👍"></emoji-slider>
       </form>
     `;
   }
