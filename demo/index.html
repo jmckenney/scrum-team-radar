@@ -82,16 +82,18 @@
       const form = document.querySelector('team-strengths-form');
       const addLink = document.getElementById('openFormLink');
 
+      chart.strengths = ['Testing', 'Java', 'JavaScript', 'HTML & CSS', 'Joke Master', 'Scruming'];
+
       document.querySelector('team-strengths-form').addEventListener('new-player', e => {
         let newMember = {
           name: e.detail.memberName,
           strengths: [
-            { label: 'Testing', value: parseInt(e.detail.one) },
-            { label: 'Java', value: parseInt(e.detail.two) },
-            { label: 'JavaScript', value: parseInt(e.detail.three) },
-            { label: 'HTML & CSS', value: parseInt(e.detail.four) },
-            { label: 'Joke Master', value: parseInt(e.detail.five) },
-            { label: 'Scruming', value: parseInt(e.detail.six) },
+            parseInt(e.detail.one),
+            parseInt(e.detail.two),
+            parseInt(e.detail.three),
+            parseInt(e.detail.four),
+            parseInt(e.detail.five),
+            parseInt(e.detail.six),
           ],
         };
 

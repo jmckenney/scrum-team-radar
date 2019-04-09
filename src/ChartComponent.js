@@ -4,6 +4,7 @@ export default class ChartComponent extends LitElement {
   static get properties() {
     return {
       members: { type: Array },
+      strengths: { type: Array },
     };
   }
 
@@ -40,6 +41,7 @@ export default class ChartComponent extends LitElement {
   constructor() {
     super();
     this.members = [];
+    this.strengths = [];
   }
 
   _renderGraph() {
@@ -49,6 +51,8 @@ export default class ChartComponent extends LitElement {
             <circle cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color)" fill="var(--chart-circle-background-color)"></circle>
             <circle cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
             <circle cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
+            ${this._renderPolygonLabels()}
+            ${this._renderLineFromCenterToOuterPolygonPoint()}
             ${this._renderMemberRadarPolygons()}
         </g>
       </svg>
@@ -59,33 +63,31 @@ export default class ChartComponent extends LitElement {
     return svg`
         ${this.members.map(
           member => svg`
-                ${ChartComponent._renderLineFromCenterToOuterPolygonPoint(member)}
                 <polygon fill="var(--chart-polygon-color)" fill-opacity="0.5" points="${ChartComponent._getPolygonPoints(
                   member,
                 )}"></polygon>
-                ${ChartComponent._renderPolygonLabels(member)}
             `,
         )}
     `;
   }
 
-  static _renderPolygonLabels(member) {
+  _renderPolygonLabels() {
     return svg`
-        ${member.strengths.map((strength, i) => {
-          const point = ChartComponent._valueToPoint(100, i, member.strengths.length);
+        ${this.strengths.map((strength, i) => {
+          const point = ChartComponent._valueToPoint(100, i, this.strengths.length);
           return svg`
                 <text fill="var(--chart-text-label-color)" dominant-baseline="middle" text-anchor="middle" x="${
                   point.x
-                }" y="${point.y}">${strength.label}</text>
+                }" y="${point.y}">${strength}</text>
             `;
         })}
     `;
   }
 
-  static _renderLineFromCenterToOuterPolygonPoint(member) {
+  _renderLineFromCenterToOuterPolygonPoint() {
     return svg`
-        ${member.strengths.map((strength, i) => {
-          const point = ChartComponent._valueToPoint(100, i, member.strengths.length);
+        ${this.strengths.map((strength, i) => {
+          const point = ChartComponent._valueToPoint(100, i, this.strengths.length);
           return svg`
                 <line x1="0" y1="0" x2="${point.x}" y2="${
             point.y
@@ -96,10 +98,10 @@ export default class ChartComponent extends LitElement {
   }
 
   static _getPolygonPoints(member) {
-    const total = member.strengths.length;
+    const totalStrengths = member.strengths.length;
     return member.strengths
       .map((strength, i) => {
-        const point = ChartComponent._valueToPoint(strength.value, i, total);
+        const point = ChartComponent._valueToPoint(strength, i, totalStrengths);
         return `${point.x} , ${point.y}`;
       })
       .join(' ');
