@@ -12,6 +12,7 @@ export default class ChartComponent extends LitElement {
     return css`
       :host {
         display: block;
+        font-size: 22px;
       }
 
       svg {

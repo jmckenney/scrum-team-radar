@@ -12,6 +12,7 @@ export default class TeamStrengthsForm extends LitElement {
         max-width: 100vw;
         height: 100vh;
         transform: translateX(100vw);
+        box-sizing: border-box;
       }
 
       :host(.open) {
@@ -59,11 +60,24 @@ export default class TeamStrengthsForm extends LitElement {
       }
 
       label {
+        display: block;
         width: 100%;
+        margin-bottom: 6px;
       }
 
       input {
         width: 100%;
+        margin-bottom: 15px;
+        height: 20px;
+        padding: 3px;
+        font-size: 16px;
+      }
+
+      input[type='button'] {
+        background-color: #1b0f0b;
+        color: white;
+        padding: 10px;
+        height: auto;
       }
 
       .close-button {
@@ -82,24 +96,35 @@ export default class TeamStrengthsForm extends LitElement {
         line-height: 3;
         cursor: pointer;
       }
+
+      emoji-slider {
+        margin-bottom: 15px;
+      }
     `;
   }
 
   constructor() {
     super();
-    this.josh = '';
+    this.one = 0;
+    this.two = 0;
+    this.three = 0;
+    this.four = 0;
+    this.five = 0;
+    this.six = 0;
   }
 
   _onSubmit() {
-    const objToEmit = {};
-    const formData = new FormData(this.shadowRoot.querySelector('form'));
-    const formDataEntries = formData.entries();
-    // eslint-disable-next-line no-restricted-syntax
-    for (const pair of formDataEntries) {
-      const [prop, value] = pair;
-      objToEmit[prop] = value;
-    }
+    const objToEmit = {
+      memberName: this.memberName,
+      one: this.testing,
+      two: this.java,
+      three: this.javascript,
+      four: this.html,
+      five: this.joke,
+      six: this.scruming,
+    };
     this.dispatchEvent(new CustomEvent('new-player', { detail: objToEmit }));
+    this._reset();
     this._handleClose();
   }
 
@@ -108,34 +133,65 @@ export default class TeamStrengthsForm extends LitElement {
     this.dispatchEvent(new CustomEvent('new-player-closed'));
   }
 
+  _reset() {
+    this.one = 0;
+    this.two = 0;
+    this.three = 0;
+    this.four = 0;
+    this.five = 0;
+    this.six = 0;
+    this.shadowRoot.querySelector('#memberName').value = '';
+    this.shadowRoot.querySelector('#testing').value = '';
+    this.shadowRoot.querySelector('#java').value = '';
+    this.shadowRoot.querySelector('#javascript').value = '';
+    this.shadowRoot.querySelector('#html').value = '';
+    this.shadowRoot.querySelector('#joke').value = '';
+    this.shadowRoot.querySelector('#scruming').value = '';
+  }
+
+  _handleChange(s) {
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(s.target.value)) {
+      this[s.target.id] = s.target.value;
+    } else {
+      this[s.target.id] = Math.round(s.target.value * 100);
+    }
+  }
+
   render() {
     return html`
       <a @click="${this._handleClose}" class="close-button">Close</a>
       <form>
-        <label for="memberName">Member Name</label>
-        <input name="memberName" id="memberName" type="text" required value="yo" />
+        <label for="memberName">Name of resource:</label>
+        <input
+          name="memberName"
+          id="memberName"
+          type="text"
+          required
+          value=""
+          placeholder="Jane Doe"
+          @change="${this._handleChange}"
+        />
 
-        <label for="one">One</label>
-        <input name="one" id="one" type="text" required value="5" />
+        <label for="one">Testing</label>
+        <emoji-slider emoji="👍" id="testing" @change="${this._handleChange}"></emoji-slider>
 
-        <label for="two">Two</label>
-        <input name="two" id="two" type="text" required value="5" />
+        <label for="two">Java</label>
+        <emoji-slider emoji="👍" id="java" @change="${this._handleChange}"></emoji-slider>
 
-        <label for="three">Three</label>
-        <input name="three" id="three" type="text" required value="5" />
+        <label for="three">JavaScript</label>
+        <emoji-slider emoji="👍" id="javascript" @change="${this._handleChange}"></emoji-slider>
 
-        <label for="four">Four</label>
-        <input name="four" id="four" type="text" required value="5" />
+        <label for="four">HTML & CSS</label>
+        <emoji-slider emoji="👍" id="html" @change="${this._handleChange}"></emoji-slider>
 
-        <label for="five">Five</label>
-        <input name="five" id="five" type="text" required value="5" />
+        <label for="five">Joke Master</label>
+        <emoji-slider emoji="👍" id="joke" @change="${this._handleChange}"></emoji-slider>
 
-        <label for="six">Six</label>
-        <input name="six" id="six" type="text" required value="5" />
+        <label for="six">Scruming</label>
+        <emoji-slider emoji="👍" id="scruming" @change="${this._handleChange}"></emoji-slider>
 
-        <input type="button" @click="${this._onSubmit}" value="Click Me" />
-
-        <emoji-slider emoji="👍"></emoji-slider>
+        <input type="button" @click="${this._onSubmit}" value="Add Team Member" />
       </form>
     `;
   }
