@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Ovo|Quattrocento+Sans" rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-image: url(https://www.reliablepsd.com/wp-content/themes/reliable/images/blog/bg02.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        font-family: 'Quattrocento Sans', Sans-Serif;
+        font-size: 17px;
+        --chart-text-label-color: #ffffff;
+        --chart-polygon-color: #e2ae77;
+        --chart-grid-line-color: #edc795;
+        --chart-circle-background-color: #d0a0842e;
+        --chart-width: 90vw;
+        --emoji-slider-bar-color: #e2ae77;
+        --emoji-slider-bar-active-color: #1b0f0b;
+        margin: 0;
+        padding: 0;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: 'Ovo', Serif;
+        font-size: 42px;
+      }
+
+      #demo {
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: row;
+      }
+
+      chart-component {
+        display: flex;
+        justify-content: center;
+      }
+
+      .open-button {
+        position: fixed;
+        bottom: 3vh;
+        right: 3vw;
+        padding: 29px 0;
+        background-color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        text-align: center;
+        line-height: 1;
+      }
+
+      .open-button.active {
+        width: 94vw;
+        height: 94vh;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: transparent;
+      }
+
+      .open-button:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+    <div id="demo">
+      <chart-component></chart-component>
+      <a id="openFormLink" class="open-button">Add</a>
+      <team-strengths-form></team-strengths-form>
+    </div>
+
+    <script type="module" src="./chart-component.js"></script>
+    <script type="module" src="./team-strengths-form.js"></script>
+    <script>
+      const chart = document.querySelector('chart-component');
+      const form = document.querySelector('team-strengths-form');
+      const addLink = document.getElementById('openFormLink');
+
+      chart.strengths = ['Testing', 'Java', 'JavaScript', 'HTML & CSS', 'Joke Master', 'Scruming'];
+
+      document.querySelector('team-strengths-form').addEventListener('new-player', e => {
+        let newMember = {
+          name: e.detail.memberName,
+          strengths: [
+            parseInt(e.detail.one),
+            parseInt(e.detail.two),
+            parseInt(e.detail.three),
+            parseInt(e.detail.four),
+            parseInt(e.detail.five),
+            parseInt(e.detail.six),
+          ],
+        };
+
+        chart.members = [...chart.members, newMember];
+      });
+
+      document.querySelector('team-strengths-form').addEventListener('new-player-closed', e => {
+        addLink.classList.remove('active');
+      });
+
+      addLink.addEventListener('click', e => {
+        e.target.classList.add('active');
+        form.classList.add('open');
+      });
+    </script>
+  </body>
+</html>
