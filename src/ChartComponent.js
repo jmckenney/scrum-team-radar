@@ -48,10 +48,19 @@ export default class ChartComponent extends LitElement {
   _renderGraph() {
     return svg`
       <svg viewBox="-300 -300 600 600" width="600">
+        <radialGradient id="headerShape">
+          <stop offset="0%" stop-color="#e2ae77" />
+          <stop offset="100%" stop-color="rgba(226, 174, 119, 0.36)" />
+        </radialGradient>
+        <filter id="f3" x="0" y="0" width="200%" height="200%">
+          <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+          <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+        </filter>
         <g>
-            <circle cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color)" fill="var(--chart-circle-background-color)"></circle>
-            <circle cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
-            <circle cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color)" fill="var(--chart-circle-background-color)"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
             ${this._renderPolygonLabels()}
             ${this._renderLineFromCenterToOuterPolygonPoint()}
             ${this._renderMemberRadarPolygons()}
@@ -64,7 +73,7 @@ export default class ChartComponent extends LitElement {
     return svg`
         ${this.members.map(
           member => svg`
-                <polygon fill="var(--chart-polygon-color)" fill-opacity="0.5" points="${ChartComponent._getPolygonPoints(
+                <polygon fill="url(#headerShape)" fill-opacity="0.5" filter="url(#f3)" points="${ChartComponent._getPolygonPoints(
                   member,
                 )}"></polygon>
             `,
@@ -90,7 +99,7 @@ export default class ChartComponent extends LitElement {
         ${this.strengths.map((strength, i) => {
           const point = ChartComponent._valueToPoint(100, i, this.strengths.length);
           return svg`
-                <line x1="0" y1="0" x2="${point.x}" y2="${
+                <line stroke-width=".5" x1="0" y1="0" x2="${point.x}" y2="${
             point.y
           }" stroke="var(--chart-grid-line-color)" />
             `;

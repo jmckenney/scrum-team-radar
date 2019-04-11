@@ -105,12 +105,12 @@ export default class TeamStrengthsForm extends LitElement {
 
   constructor() {
     super();
-    this.one = 0;
-    this.two = 0;
-    this.three = 0;
-    this.four = 0;
-    this.five = 0;
-    this.six = 0;
+    this.testing = 0;
+    this.java = 0;
+    this.javascript = 0;
+    this.html = 0;
+    this.joke = 0;
+    this.scruming = 0;
   }
 
   _onSubmit() {
@@ -134,12 +134,12 @@ export default class TeamStrengthsForm extends LitElement {
   }
 
   _reset() {
-    this.one = 0;
-    this.two = 0;
-    this.three = 0;
-    this.four = 0;
-    this.five = 0;
-    this.six = 0;
+    this.testing = 0;
+    this.java = 0;
+    this.javascript = 0;
+    this.html = 0;
+    this.joke = 0;
+    this.scruming = 0;
     this.shadowRoot.querySelector('#memberName').value = '';
     this.shadowRoot.querySelector('#testing').value = '';
     this.shadowRoot.querySelector('#java').value = '';
