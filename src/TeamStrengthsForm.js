@@ -1,5 +1,6 @@
 import { html, LitElement, css } from 'lit-element';
 import 'emoji-slider';
+import nanoid from 'nanoid';
 
 export default class TeamStrengthsForm extends LitElement {
   static get styles() {
@@ -116,6 +117,7 @@ export default class TeamStrengthsForm extends LitElement {
   _onSubmit() {
     const objToEmit = {
       memberName: this.memberName,
+      memberId: nanoid(),
       one: this.testing,
       two: this.java,
       three: this.javascript,
@@ -169,7 +171,6 @@ export default class TeamStrengthsForm extends LitElement {
           type="text"
           required
           value=""
-          placeholder="Jane Doe"
           @change="${this._handleChange}"
         />
 

@@ -13,6 +13,8 @@ export default class ChartComponent extends LitElement {
       :host {
         display: block;
         font-size: 22px;
+        display: flex;
+        justify-content: center;
       }
 
       svg {
@@ -25,8 +27,15 @@ export default class ChartComponent extends LitElement {
         position: relative;
         width: 100vw;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+      }
+
+      @media only screen and (min-width: 900px) {
+        .chart-size {
+          flex-direction: row;
+        }
       }
 
       polygon {
@@ -34,6 +43,44 @@ export default class ChartComponent extends LitElement {
       }
 
       polygon:hover {
+        transform: scale(1.1);
+      }
+
+      ul {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      @media only screen and (min-width: 900px) {
+        ul {
+          text-align: right;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      li {
+        list-style-type: none;
+        color: white;
+        display: inline-block;
+        background-color: #d0a0842e;
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin: 6px 4px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 -2px 1px rgba(255, 255, 255, 0.08);
+        transform: scale(1);
+        transition: all 0.3s ease-in;
+      }
+
+      li:hover,
+      li.active {
+        background-color: white;
+        color: #1b0f0b;
+        cursor: pointer;
+      }
+
+      li:hover {
         transform: scale(1.1);
       }
     `;
@@ -69,15 +116,42 @@ export default class ChartComponent extends LitElement {
     `;
   }
 
+  _renderMemberNames() {
+    return html`
+      <ul>
+        ${this.members.map(
+          member => html`
+            <li
+              data-member-id="${member.id}"
+              class="${member.active ? 'active' : ''}"
+              @click=${this._handleNameClick}
+            >
+              ${member.name}
+            </li>
+          `,
+        )}
+      </ul>
+    `;
+  }
+
+  _handleNameClick(e) {
+    const memberId = e.target.getAttribute('data-member-id');
+    this.members = this.members.map(member => {
+      const thisMember = member.id === memberId;
+      return { ...member, active: thisMember };
+    });
+  }
+
   _renderMemberRadarPolygons() {
     return svg`
-        ${this.members.map(
-          member => svg`
-                <polygon fill="url(#headerShape)" fill-opacity="0.5" filter="url(#f3)" points="${ChartComponent._getPolygonPoints(
-                  member,
-                )}"></polygon>
-            `,
-        )}
+        ${this.members.map(member => {
+          const opacity = member.active ? 1 : 0.5;
+          return svg`
+                <polygon fill="url(#headerShape)" fill-opacity="${opacity}" filter="url(#f3)" 
+                  points="${ChartComponent._getPolygonPoints(member)}" id="${member.id}">
+                </polygon>
+            `;
+        })}
     `;
   }
 
@@ -137,7 +211,7 @@ export default class ChartComponent extends LitElement {
   render() {
     return html`
       <div class="chart-size">
-        ${this._renderGraph()}
+        ${this._renderMemberNames()} ${this._renderGraph()}
       </div>
     `;
   }
