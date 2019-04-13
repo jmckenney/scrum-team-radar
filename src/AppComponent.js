@@ -24,7 +24,7 @@ export default class AppComponent extends LitElement {
       }
 
       .open-button {
-        position: fixed;
+        position: absolute;
         bottom: 3vh;
         right: 3vw;
         padding: 29px 0;
