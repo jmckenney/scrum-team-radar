@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import { html, LitElement, css } from 'lit-element';
 import './chart-component';
 import './team-strengths-form';
@@ -83,12 +84,12 @@ export default class AppComponent extends LitElement {
         name: e.detail.memberName,
         id: e.detail.memberId,
         strengths: [
-          parseInt(e.detail.one, 16),
-          parseInt(e.detail.two, 16),
-          parseInt(e.detail.three, 16),
-          parseInt(e.detail.four, 16),
-          parseInt(e.detail.five, 16),
-          parseInt(e.detail.six, 16),
+          parseInt(e.detail.one),
+          parseInt(e.detail.two),
+          parseInt(e.detail.three),
+          parseInt(e.detail.four),
+          parseInt(e.detail.five),
+          parseInt(e.detail.six),
         ],
       };
 
