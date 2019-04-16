@@ -15,13 +15,11 @@ export default class AppComponent extends LitElement {
         box-sizing: border-box;
       }
       :host {
-        // display: block;
-        // position: absolute;
-        // top: 0;
-        // overflow: hidden;
-        // min-height: 100vh;
-        // display: flex;
-        // flex-direction: row;
+        position: absolute;
+        top: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: row;
       }
 
       .open-button {
