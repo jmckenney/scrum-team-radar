@@ -25,7 +25,7 @@ export default class AppComponent extends LitElement {
       .open-button {
         position: absolute;
         bottom: 3vh;
-        right: 3vw;
+        right: 15px;
         padding: 29px 0;
         background-color: rgba(255, 255, 255, 0.6);
         transition: all 0.3s ease-in-out;
@@ -46,6 +46,21 @@ export default class AppComponent extends LitElement {
 
       .open-button:hover {
         background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .reset-button {
+        position: absolute;
+        bottom: 3vh;
+        right: 95px;
+        padding: 29px 0;
+        background-color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        text-align: center;
+        line-height: 1;
       }
     `;
   }
@@ -81,17 +96,16 @@ export default class AppComponent extends LitElement {
       const newMember = {
         name: e.detail.memberName,
         id: e.detail.memberId,
-        strengths: [
-          parseInt(e.detail.one),
-          parseInt(e.detail.two),
-          parseInt(e.detail.three),
-          parseInt(e.detail.four),
-          parseInt(e.detail.five),
-          parseInt(e.detail.six),
-        ],
+        strengths: e.detail.strengths,
       };
 
       this.chart.members = [...this.chart.members, newMember];
+    });
+
+    this.shadowRoot.querySelector('team-strengths-form').addEventListener('new-strengths', e => {
+      this._handleChartReset();
+      const strengths = e.detail;
+      this.chart.strengths = strengths;
     });
 
     this.shadowRoot
@@ -106,10 +120,25 @@ export default class AppComponent extends LitElement {
     this.form.classList.add('open');
   }
 
+  _handleChartReset() {
+    this.chart.members = [];
+    this.chart.strengths = [];
+  }
+
+  _handleAppReset() {
+    this._handleChartReset();
+    this._handleFormReset();
+  }
+
+  _handleFormReset() {
+    this.form.strengths = [];
+  }
+
   render() {
     return html`
       <chart-component></chart-component>
       <a id="openFormLink" class="open-button" @click=${this._handleFormOpen}>Add</a>
+      <a id="resetLink" class="reset-button" @click=${this._handleAppReset}>Reset</a>
       <team-strengths-form></team-strengths-form>
     `;
   }

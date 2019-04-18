@@ -3,6 +3,12 @@ import 'emoji-slider';
 import nanoid from 'nanoid';
 
 export default class TeamStrengthsForm extends LitElement {
+  static get properties() {
+    return {
+      strengths: { type: Array },
+    };
+  }
+
   static get styles() {
     return css`
       :host {
@@ -106,28 +112,38 @@ export default class TeamStrengthsForm extends LitElement {
 
   constructor() {
     super();
-    this.testing = 0;
-    this.java = 0;
-    this.javascript = 0;
-    this.html = 0;
-    this.joke = 0;
-    this.scruming = 0;
+    this.strengths = [];
   }
 
   _onSubmit() {
+    const strengthValues = [
+      this.ms0,
+      this.ms1,
+      this.ms2,
+      this.ms3,
+      this.ms4,
+      this.ms5,
+      this.ms6,
+    ].filter(s => s && s > 0);
+
     const objToEmit = {
       memberName: this.memberName,
       memberId: nanoid(),
-      one: this.testing,
-      two: this.java,
-      three: this.javascript,
-      four: this.html,
-      five: this.joke,
-      six: this.scruming,
+      strengths: strengthValues,
     };
+
     this.dispatchEvent(new CustomEvent('new-player', { detail: objToEmit }));
     this._reset();
     this._handleClose();
+  }
+
+  _processStrengths() {
+    this.strengths = [this.s1, this.s2, this.s3, this.s4, this.s5, this.s6, this.s7].filter(
+      s => s && s.length > 0 && s.length < 10,
+    );
+
+    this.dispatchEvent(new CustomEvent('new-strengths', { detail: this.strengths }));
+    this.requestUpdate();
   }
 
   _handleClose() {
@@ -136,19 +152,9 @@ export default class TeamStrengthsForm extends LitElement {
   }
 
   _reset() {
-    this.testing = 0;
-    this.java = 0;
-    this.javascript = 0;
-    this.html = 0;
-    this.joke = 0;
-    this.scruming = 0;
     this.shadowRoot.querySelector('#memberName').value = '';
-    this.shadowRoot.querySelector('#testing').value = '';
-    this.shadowRoot.querySelector('#java').value = '';
-    this.shadowRoot.querySelector('#javascript').value = '';
-    this.shadowRoot.querySelector('#html').value = '';
-    this.shadowRoot.querySelector('#joke').value = '';
-    this.shadowRoot.querySelector('#scruming').value = '';
+    // eslint-disable-next-line no-return-assign
+    this.shadowRoot.querySelectorAll('emoji-slider').forEach(e => (e.value = ''));
   }
 
   _handleChange(s) {
@@ -160,9 +166,8 @@ export default class TeamStrengthsForm extends LitElement {
     }
   }
 
-  render() {
+  _renderMemberEntryForm() {
     return html`
-      <a @click="${this._handleClose}" class="close-button">Close</a>
       <form>
         <label for="memberName">Name of resource:</label>
         <input
@@ -174,26 +179,45 @@ export default class TeamStrengthsForm extends LitElement {
           @change="${this._handleChange}"
         />
 
-        <label for="one">Testing</label>
-        <emoji-slider emoji="👍" id="testing" @change="${this._handleChange}"></emoji-slider>
-
-        <label for="two">Java</label>
-        <emoji-slider emoji="👍" id="java" @change="${this._handleChange}"></emoji-slider>
-
-        <label for="three">JavaScript</label>
-        <emoji-slider emoji="👍" id="javascript" @change="${this._handleChange}"></emoji-slider>
-
-        <label for="four">HTML & CSS</label>
-        <emoji-slider emoji="👍" id="html" @change="${this._handleChange}"></emoji-slider>
-
-        <label for="five">Joke Master</label>
-        <emoji-slider emoji="👍" id="joke" @change="${this._handleChange}"></emoji-slider>
-
-        <label for="six">Scruming</label>
-        <emoji-slider emoji="👍" id="scruming" @change="${this._handleChange}"></emoji-slider>
+        ${this.strengths.map(
+          (strength, i) => html`
+            <label for="one">${strength}</label>
+            <emoji-slider emoji="👍" id="ms${i}" @change="${this._handleChange}"></emoji-slider>
+          `,
+        )}
 
         <input type="button" @click="${this._onSubmit}" value="Add Team Member" />
       </form>
+    `;
+  }
+
+  _renderStrengthsForm() {
+    return html`
+      <form>
+        <p>Strengths (Minimum 3):</p>
+        <input name="s1" id="s1" type="text" @change="${this._handleChange}" />
+        <input name="s2" id="s2" type="text" @change="${this._handleChange}" />
+        <input name="s3" id="s3" type="text" @change="${this._handleChange}" />
+        <input name="s4" id="s4" type="text" @change="${this._handleChange}" />
+        <input name="s5" id="s5" type="text" @change="${this._handleChange}" />
+        <input name="s6" id="s6" type="text" @change="${this._handleChange}" />
+        <input name="s7" id="s7" type="text" @change="${this._handleChange}" />
+        <input type="button" @click="${this._processStrengths}" value="Add Strengths" />
+      </form>
+    `;
+  }
+
+  _displayForm() {
+    if (this.strengths.length >= 3) {
+      return this._renderMemberEntryForm();
+    }
+    return this._renderStrengthsForm();
+  }
+
+  render() {
+    return html`
+      <a @click="${this._handleClose}" class="close-button">Close</a>
+      ${this._displayForm()}
     `;
   }
 }
