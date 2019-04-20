@@ -64,7 +64,7 @@ export default class ChartComponent extends LitElement {
         list-style-type: none;
         color: white;
         display: inline-block;
-        background-color: #d0a0842e;
+        background-color: var(--chart-label-background-color, black);
         border-radius: 4px;
         padding: 2px 8px;
         margin: 6px 4px;
@@ -105,9 +105,9 @@ export default class ChartComponent extends LitElement {
           <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
         </filter>
         <g>
-            <circle stroke-width=".3" cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color)" fill="var(--chart-circle-background-color)"></circle>
-            <circle stroke-width=".3" cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
-            <circle stroke-width=".3" cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color)" fill="transparent"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="270" stroke="var(--chart-grid-line-color, black)" fill="var(--chart-circle-background-color, white)"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="180" stroke="var(--chart-grid-line-color, black)" fill="transparent"></circle>
+            <circle stroke-width=".3" cx="0" cy="0" r="100" stroke="var(--chart-grid-line-color, black)" fill="transparent"></circle>
             ${this._renderPolygonLabels()}
             ${this._renderLineFromCenterToOuterPolygonPoint()}
             ${this._renderMemberRadarPolygons()}

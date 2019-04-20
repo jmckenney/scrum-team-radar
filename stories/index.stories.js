@@ -21,6 +21,7 @@ storiesOf('app-component', module)
           --chart-grid-line-color: ${color('Chart Grid Line Color', '#edc795')};
           --chart-circle-background-color: ${color('Chart Circle Background Color', '#d0a0842e')};
           --chart-width: 90vw;
+          --chart-label-background-color: rgba(179, 138, 93, 0.75);
           --emoji-slider-bar-color: ${color('Emoji Slider Bar Color', '#e2ae77')};
           --emoji-slider-bar-active-color: ${color('Emoji Slider Bar Active Color', '#1b0f0b')};
           margin: 0;
