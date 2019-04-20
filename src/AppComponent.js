@@ -72,12 +72,12 @@ export default class AppComponent extends LitElement {
 
     const defaultTestMembers = [
       {
-        name: 'JimBob',
+        name: 'Default Jimmy',
         strengths: [55, 76, 99, 99, 2, 20],
         id: nanoid(),
       },
       {
-        name: 'RickyBobby',
+        name: 'Default Janice',
         strengths: [89, 67, 56, 45, 34, 49],
         id: nanoid(),
       },

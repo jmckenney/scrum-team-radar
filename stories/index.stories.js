@@ -1,9 +1,10 @@
 import { storiesOf, html, withKnobs, color } from '@open-wc/demoing-storybook';
-
+import { withA11y } from '@storybook/addon-a11y';
 import '../src/app-component.js';
 import '../src/chart-component.js';
 
 storiesOf('app-component', module)
+  .addDecorator(withA11y)
   .addDecorator(withKnobs)
   .add(
     'With css variables set by consumer',
