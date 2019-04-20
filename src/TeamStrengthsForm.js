@@ -20,6 +20,7 @@ export default class TeamStrengthsForm extends LitElement {
         height: 100vh;
         transform: translateX(100vw);
         box-sizing: border-box;
+        display: none;
       }
 
       :host(.open) {
@@ -30,6 +31,7 @@ export default class TeamStrengthsForm extends LitElement {
         animation-duration: 0.7s;
         animation-name: slidein;
         animation-fill-mode: forwards;
+        display: block;
       }
 
       @keyframes slidein {
@@ -41,6 +43,7 @@ export default class TeamStrengthsForm extends LitElement {
           transform: translateX(100vw);
           animation-iteration-count: 1;
           opacity: 0;
+          display: block;
         }
         50% {
           transform: translateX(0vw);
