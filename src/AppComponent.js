@@ -40,6 +40,7 @@ export default class AppComponent extends LitElement {
       .open-button.active {
         width: 94vw;
         height: 94vh;
+        right: 3vw;
         background-color: rgba(255, 255, 255, 0.9);
         color: transparent;
       }
@@ -62,6 +63,10 @@ export default class AppComponent extends LitElement {
         text-align: center;
         line-height: 1;
       }
+
+      .hide {
+        display: none;
+      }
     `;
   }
 
@@ -69,6 +74,7 @@ export default class AppComponent extends LitElement {
     this.chart = this.shadowRoot.querySelector('chart-component');
     this.form = this.shadowRoot.querySelector('team-strengths-form');
     this.addLink = this.shadowRoot.getElementById('openFormLink');
+    this.resetLink = this.shadowRoot.getElementById('resetLink');
 
     const defaultTestMembers = [
       {
@@ -112,12 +118,14 @@ export default class AppComponent extends LitElement {
       .querySelector('team-strengths-form')
       .addEventListener('new-player-closed', () => {
         this.addLink.classList.remove('active');
+        this.resetLink.classList.remove('hide');
       });
   }
 
   _handleFormOpen() {
     this.addLink.classList.add('active');
     this.form.classList.add('open');
+    this.resetLink.classList.add('hide');
   }
 
   _handleChartReset() {
@@ -138,8 +146,8 @@ export default class AppComponent extends LitElement {
     return html`
       <chart-component></chart-component>
       <a id="openFormLink" class="open-button" @click=${this._handleFormOpen}>Add</a>
-      <a id="resetLink" class="reset-button" @click=${this._handleAppReset}>Reset</a>
       <team-strengths-form></team-strengths-form>
+      <a id="resetLink" class="reset-button" @click=${this._handleAppReset}>Reset</a>
     `;
   }
 }
