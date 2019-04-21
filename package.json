@@ -1,11 +1,11 @@
 {
-  "name": "chart-component",
+  "name": "app-component",
   "version": "0.0.0",
   "description": "Radar Chart",
   "author": "Josh McKenney",
-  "homepage": "https://github.com/open-wc/open-wc/",
+  "homepage": "https://webcomponentcourse.com",
   "license": "MIT",
-  "repository": "https://github.com/open-wc/open-wc/",
+  "repository": "https://github.com/jmckenney/scrum-team-radar",
   "scripts": {
     "lint:eslint": "eslint --ext .js,.html .",
     "format:eslint": "eslint --ext .js,.html . --fix",
