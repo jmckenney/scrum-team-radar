@@ -17,23 +17,29 @@
     "build:stats": "webpack --mode production --profile --json > bundle-stats.json",
     "site:build": "npm run storybook:build",
     "storybook": "start-storybook -p 9001",
-    "storybook:build": "build-storybook -o _site -s storybook-static"
+    "storybook:build": "build-storybook -o _site -s storybook-static",
+    "test": "karma start --coverage",
+    "test:watch": "karma start --auto-watch=true --single-run=false"
   },
   "dependencies": {
+    "@open-wc/testing-karma": "^1.1.1",
     "emoji-slider": "^0.2.0",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0",
-    "nanoid": "^2.0.1"
+    "nanoid": "^2.0.1",
+    "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
-    "owc-dev-server": "^0.3.0",
+    "@open-wc/building-webpack": "^1.2.0",
+    "@open-wc/demoing-storybook": "^0.2.0",
     "@open-wc/eslint-config": "^0.4.1",
     "@open-wc/prettier-config": "^0.1.0",
-    "@open-wc/building-webpack": "^1.2.0",
+    "@open-wc/testing": "^0.11.4",
+    "@storybook/addon-a11y": "^5.0.10",
     "http-server": "^0.11.1",
+    "karma": "^4.1.0",
+    "owc-dev-server": "^0.3.0",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14",
-    "@open-wc/demoing-storybook": "^0.2.0",
-    "@storybook/addon-a11y": "^5.0.10"
+    "webpack-dev-server": "^3.1.14"
   }
 }
